@@ -1,0 +1,35 @@
+#thread number
+# cores: {{ cores }}
+directory: {{ directory }}
+#dna & rna dir
+dnadir: 
+rnadir: 
+
+#where the reference files are
+fasta: {{ fasta }}
+fasta_fai: {{ fasta_fai }}
+lambda_fasta: {{ lambda_fasta }}
+star_index: {{ star_index }}
+star_annotation: {{ star_annotation }}
+
+
+#sub dir
+raw: "01.Raw/"
+fastq: "02.Trim/"
+bam: "03.Bam/"
+site: "04.WCG.GCH/"
+
+# support {'mm10', 'hg38'}
+species: {{ species }}
+
+samplesheet: {{ samplesheet }}
+runs:
+
+#tool and script
+methratio: "./modules/scripts/methratio.py"
+Site_binary: "./modules/scripts/site_binary.py"
+QCtable: "./modules/scripts/QCtable.py"
+Bin_matrix: "./modules/scripts/bin_matrix.py"
+Site_matrix: "./modules/scripts/site_matrix.py"
+
+

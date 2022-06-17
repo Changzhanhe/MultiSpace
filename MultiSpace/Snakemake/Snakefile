@@ -1,0 +1,61 @@
+#!/usr/bin/env python
+
+localrules: all
+# localrules will let the rule run locally rather than submitting to cluster
+
+import csv
+import os
+import yaml
+import sys
+import glob
+import pandas as pd
+import subprocess
+import numpy as np
+from string import Template
+from collections import defaultdict
+from os.path import join
+
+
+def updateMeta(config):
+	"""parse metasheet for Run groupings"""
+	config['dnadir'] = os.path.join(config['directory'], "DNA/")
+	config['rnadir'] = os.path.join(config['directory'], "RNA/")
+	metadata = pd.read_csv(config['samplesheet'], index_col=0, comment='#', sep=',', skipinitialspace=True)
+	config['runs'] = metadata.to_csv().split()
+	return config
+
+
+
+#---------  CONFIG set up  ---------------
+configfile: "./config.yaml"   # This makes snakemake load up yaml into config 
+
+config = updateMeta(config)
+
+#-----------------------------------------
+
+
+def all_targets(wildcards):
+	ls = []
+	ls.extend(trim_target(wildcards))
+	ls.extend(bsmap_target(wildcards))
+	ls.extend(methy_target(wildcards))
+	ls.extend(site_target(wildcards))
+	ls.extend(rna_target(wildcards))
+	ls.extend(matrix_target(wildcards))
+	return ls   
+
+
+rule all:
+	input: 
+		all_targets,
+
+
+include: "modules/trim_adapter.snakefile"
+include: "modules/bsmap_se_mapping.snakefile"
+include: "modules/methylation_calling.snakefile"
+include: "modules/filter_site_merge.snakefile"
+include: "modules/rna_trim_mapping.snakefile"
+include: "modules/generate_matrix.snakefile"
+
+
+
