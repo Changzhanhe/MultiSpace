@@ -33,7 +33,8 @@ DNA methylation and Chromatin Accessibility analysis built using snakemake.
 
 positional arguments:
   {pipeline_init,wcg_methratio,gch_geneactivity,getting_episignal}
-    pipeline_init       Initialize the MultiSpace preprocessing workflow in a given directory. This will install the snakemake rules and a config file in this directory. You can configure the config file
+    pipeline_init       Initialize the MultiSpace preprocessing workflow in a given directory. This will install the snakemake rules and a config 
+                        file in this directory. You can configure the config file
                         according to your needs, and run the workflow with Snakemake
     wcg_methratio       Calculate each gene an average methylation ratio across all cells in promoter/genebody region
     gch_geneactivity    Calculate each gene an activity score across all cells
