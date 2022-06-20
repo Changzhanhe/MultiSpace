@@ -14,8 +14,8 @@ For full installation and usage of MultiSpace, please refer to the [documentatio
 ## Change Log
 ### v0.0.1
 * Release MultiSpace.
-* Please prepare input files and folder structure following the installation instructions.
-* Add mapping single cell to spatial location, DNA methylation level, chromatin accessibility level functions.
+* Use Snakemake to preprocess raw data. Add pipeline initiation function.
+* Add mapping single cell to spatial location, DNA methylation ratio, gene activity score using RP-model functions.
 
 ## Installation
 ### Use the following commands to install Minicoda3：
