@@ -20,8 +20,8 @@ def geneactivity_parser(subparsers):
 		help = "Calculate each gene an activity score across all cells")
 
 	group_input = workflow.add_argument_group("Input arguments")
-	group_input.add_argument("--gene_bed", dest = "gene_bed", default = None,
-		help = "Location of the reference genome bed file. ")
+	group_input.add_argument("--species", dest = "species", choices = ['mm10', 'hg38'], type = str, default = "mm10",
+		help = "Species (hg38 for human and mm10 for mouse). DEFAULT: mm10.")
 	group_input.add_argument("--cell_barcode", dest = "cell_barcode", default = None,
 		help = "Location of the cell barcode list(generate by Preprocess snakemake pipeline). "
 		"Cells which passed quality check.")
@@ -54,7 +54,7 @@ def get_peakpattern(pathdir):
 
 
 
-def GCHScoreMatrix(file_path , gene_bed, cell_barcode, out_dir, out_prefix, distance):
+def GCHScoreMatrix(file_path , species, cell_barcode, out_dir, out_prefix, distance):
 
   
 	chrpat = get_peakpattern(file_path)
@@ -84,6 +84,9 @@ def GCHScoreMatrix(file_path , gene_bed, cell_barcode, out_dir, out_prefix, dist
 			chrlist.extend(['chrM','chrX','chrY'])
 
 		
+		annotation_path = resource_filename('MultiSpace', 'annotations')
+		gene_bed = os.path.join(annotation_path, species + "_refGene.txt")
+
 		score_df = "GCH_mat.%s" % ichr
 		(genes_info, peaks_info, genes_list, genes) = AnnoPeak(gene_bed, peak_list, chrlist)
 		score_df = GCHActivityScore(distance, GCH_site_matrix, genes_info, peaks_info, genes_list, genes, barcode_list)
