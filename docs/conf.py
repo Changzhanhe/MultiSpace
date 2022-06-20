@@ -65,7 +65,7 @@ html_css_files = [
 source_suffix = ".rst"
 
 nbsphinx_thumbnails = {
-    "tutorials/Mouse_embryo": "_static/img/thumbnail/Mouse_embryo.png",
+    "examples/Mouse_embryo": "_static/img/thumbnail/Mouse_embryo.png",
 }
 
 html_theme_options = {
