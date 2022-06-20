@@ -4,7 +4,7 @@ MultiSpace(Single-cell Multi Omics Analysis In Space) is a multi-omics pipeline 
 ![avatar](docs/_static/img/workflow.png)
 
 ## Documentation
-For full installation and usage of MultiSpace, please refer to the [documentation].
+For full installation and usage of MultiSpace, please refer to the [documentation](https://multispace.readthedocs.io/en/latest/).
 
 
 ## Change Log
