@@ -28,8 +28,8 @@ def main():
         name = "MultiSpace",
         version = __version__,
         # package_dir = {'':'MultiSpace'},
-        packages = ['MultiSpace', 'MultiSpace.GeneActivity', 'MultiSpace.GeneMethyscore', 'MultiSpace.MappingscCell', 'MultiSpace.MultiSpace_init', 'MultiSpace.Snakemake.modules','MultiSpace.Snakemake.modules.scripts'],
-        package_data = {'MultiSpace':['Snakemake/modules/*', 'Snakemake/modules/scripts/*', 'Snakemake/*']},
+        packages = ['MultiSpace', 'MultiSpace.GeneActivity', 'MultiSpace.GeneMethyscore', 'MultiSpace.MappingscCell', 'MultiSpace.MultiSpace_init', ],
+        package_data = {'MultiSpace':['Snakemake/modules/*', 'Snakemake/modules/scripts/*', 'Snakemake/*', 'annotations/*']},
         install_requires = requirements,
         setup_requires = requirements,
         entry_points={
