@@ -16,37 +16,42 @@ from pandas import Series,DataFrame
 
 
 def methratio_parser(subparsers):
-    workflow = subparsers.add_parser("wcg_methratio", 
-        help = "Calculate each gene an average methylation ratio across all cells in promoter/genebody region")
+	workflow = subparsers.add_parser("wcg_methratio", 
+		help = "Calculate each gene an average methylation ratio across all cells in promoter/genebody region")
 
-    group_input = workflow.add_argument_group("Input arguments")
-    group_input.add_argument("--gene_bed", dest = "gene_bed", default = None,
-        help = "Location of the reference genome bed file. ")
-    group_input.add_argument("--cell_barcode", dest = "cell_barcode", default = None,
-        help = "Location of the cell barcode list(generate by Preprocess snakemake pipeline). "
-        "Cells which passed quality check.")
-    group_input.add_argument("--peak_reference", dest = "peak_reference", default = None,
-    	help = "Path to WCG.uniq.peak")
-    group_input.add_argument("--meth_matrix", dest = "meth_matrix", default = None,
-    	help = "Path to WCG.site_peak.h5")
+	group_input = workflow.add_argument_group("Input arguments")
+	group_input.add_argument("--species", dest = "species", choices = ['mm10', 'hg38'], type = str, default = "mm10",
+		help = "Species (hg38 for human and mm10 for mouse). DEFAULT: mm10.")
+	group_input.add_argument("--cell_barcode", dest = "cell_barcode", default = None,
+		help = "Location of the cell barcode list(generate by Preprocess snakemake pipeline). "
+		"Cells which passed quality check.")
+	group_input.add_argument("--peak_reference", dest = "peak_reference", default = None,
+		help = "Path to WCG.uniq.peak")
+	group_input.add_argument("--meth_matrix", dest = "meth_matrix", default = None,
+		help = "Path to WCG.site_peak.h5")
  
-    group_output = workflow.add_argument_group("Output arguments")
-    group_output.add_argument("--outdir", dest = "out_dir", default = ".", 
-        help = "Path to the directory where the result file shall be stored. DEFAULT: current directory. ")
-    group_output.add_argument("--outprefix", dest = "out_prefix", default = "MultiSpace", 
-        help = "Prefix of output files. DEFAULT: MultiSpace. ")
+	group_output = workflow.add_argument_group("Output arguments")
+	group_output.add_argument("--outdir", dest = "out_dir", default = ".", 
+		help = "Path to the directory where the result file shall be stored. DEFAULT: current directory. ")
+	group_output.add_argument("--outprefix", dest = "out_prefix", default = "MultiSpace", 
+		help = "Prefix of output files. DEFAULT: MultiSpace. ")
 
-    group_part = workflow.add_argument_group("Part arguments")
-    group_part.add_argument("--region", dest = "region", choices = ['promoter', 'genebody'],default = "promoter", 
-        help = "Type of methylation region. promoter or genebody.  "
-        "If not specified, MultiSpace will use promoter as default. ")
-    group_part.add_argument("--distance", dest = "distance", type = int, default = 2000,
-        help = "Distance of gene promoter region. GENEBODY NOT REQUIRED! For example, 10000. "
-        "If not specified, MultiSpace will take 2000 as default. ")
+	group_part = workflow.add_argument_group("Part arguments")
+	group_part.add_argument("--region", dest = "region", choices = ['promoter', 'genebody'],default = "promoter", 
+		help = "Type of methylation region. promoter or genebody.  "
+		"If not specified, MultiSpace will use promoter as default. ")
+	group_part.add_argument("--distance", dest = "distance", type = int, default = 2000,
+		help = "Distance of gene promoter region. GENEBODY NOT REQUIRED! For example, 10000. "
+		"If not specified, MultiSpace will take 2000 as default. ")
  
 
 
-def WCGMethyMatrix(peak_reference, gene_bed, meth_matrix, cell_barcode, out_dir, out_prefix, region, distance):
+
+def WCGMethyMatrix(peak_reference, species, meth_matrix, cell_barcode, out_dir, out_prefix, region, distance):
+
+
+	annotation_path = resource_filename('MultiSpace', 'annotations')
+	gene_bed = os.path.join(annotation_path, species + "_refGene.txt")
 
 	WCG_site = pd.read_table(peak_reference, header = None, names = ["chr","start","end"], delimiter = "_")	
 	peak_list = open(peak_reference, 'rt')
