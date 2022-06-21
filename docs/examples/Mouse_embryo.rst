@@ -145,13 +145,13 @@ The results are showed below.
 
 Validate mapping accuracy:
 
-.. image:: ../_static/img/thumbnail/Mouse_embryo/validate.png
+.. image:: ../_static/img/thumbnail/validate.png
    :height: 350px
    :align: center
 
 Users can use Giotto to get spatially epigenetic domain:
 
-.. image:: ../_static/img/thumbnail/Mouse_embryo/epi_cluster.png
+.. image:: ../_static/img/thumbnail/epi_cluster.png
    :height: 350px
    :align: center
 
