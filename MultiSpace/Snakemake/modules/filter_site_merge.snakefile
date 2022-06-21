@@ -119,7 +119,8 @@ rule WCGmergesite:
 	output:
 		config['dnadir'] + config['site'] + "{sample}/{sample}.WCG.sorted.merge.bed",
 	shell:
-		"""bedtools map -a {input[0]} -b {input[1]} -o mean | awk '{{FS="\\t";OFS="\\t"}}{{if ($4 >= 0.5){{print $1"_"$2"_"$3,1}} if ($4 != "." && $4 < 0.5){{print $1"_"$2"_"$3,0}}}}' - > {output}  """
+		"""bedtools map -a {input[0]} -b {input[1]} -o mean | awk '{{FS="\\t";OFS="\\t"}}{{if ($4 >= 0.5){{print $1"_"$2"_"$3,1}} if ($4 != "." && $4 < 0.5){{print $1"_"$2"_"$3,0}}}}' - > {output} &&\
+		rm {input[0]} """
 
 
 
@@ -130,7 +131,7 @@ rule GCHmergesite:
 		config['dnadir'] + config['site'] + "GCH.region.bed",
 		config['dnadir'] + config['site'] + "{sample}/{sample}.GCH.site.chr1_chr6.sorted.bed",
 		config['dnadir'] + config['site'] + "{sample}/{sample}.GCH.site.chr7_chr12.sorted.bed",
-		config['dnadir'] + config['site'] + "{sample}/{sample}.GCH.site.chr13_chrY.sorted.bed",
+		config['dnadir'] + config['site'] + "{sample}/{sample}.GCH.site.chr13_chrY.sorted.bed"
 	output:
 		temp(config['dnadir'] + config['site'] + "{sample}/{sample}.GCH.sorted.chr1_chr6.merge.bed"),		
 		temp(config['dnadir'] + config['site'] + "{sample}/{sample}.GCH.sorted.chr7_chr12.merge.bed"),
@@ -143,7 +144,8 @@ rule GCHmergesite:
 		   cat {output[0]} {output[1]} {output[2]} >> {output[3]} &&\
 		   rm {input[0]} &&\
 		   rm {input[1]} &&\
-		   rm {input[2]}"""
+		   rm {input[2]} &&\
+		   rm {input[3]}"""
 
 
 
