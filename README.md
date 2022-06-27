@@ -34,19 +34,16 @@ python setup.py install
 
 ## Usage
 ```bash
-usage: MultiSpace [-h] [-v] {pipeline_init,wcg_methratio,gch_geneactivity,getting_episignal} ...
+usage: MultiSpace [-h] [-v] {Pipelineinit,Scorematrix,Mappingcell} ...
 
-MultiSpace(Single-cell Multi Omics Analysis In Space) is a multi-omics pipeline integrated RNA Expression, 
-DNA methylation and Chromatin Accessibility analysis built using snakemake.
+MultiSpace(Single-cell Multi Omics Analysis In Space) is a multi-omics pipeline integrated RNA Expression, DNA methylation and Chromatin Accessibility analysis built using snakemake.
 
 positional arguments:
-  {pipeline_init,wcg_methratio,gch_geneactivity,getting_episignal}
-    pipeline_init       Initialize the MultiSpace preprocessing workflow in a given directory. 
-                        This will install the snakemake rules and a config file in this directory. You can configure the config file
-                        according to your needs, and run the workflow with Snakemake
-    wcg_methratio       Calculate each gene an average methylation ratio across all cells in promoter/genebody region
-    gch_geneactivity    Calculate each gene an activity score across all cells
-    getting_episignal   Map single cell to spatial location and get spatial epigenetic signal.
+  {Pipelineinit,Scorematrix,Mappingcell}
+    Pipelineinit        Initialize the MultiSpace preprocessing workflow in a given directory. This will install the snakemake rules and a config file in this directory. You can configure the config file
+                        according to your needs, and run the workflow with Snakemake.
+    Scorematrix         Calculate each gene a gene by cell score matrix across all cells. WCG: Genebody/Promoter methylation ratio matrix. GCH: Gene activity score matrix.
+    Mappingcell         Map single cell to spatial location according to expression similarity and get spatial epigenetic signal.
 
 optional arguments:
   -h, --help            show this help message and exit
