@@ -11,7 +11,7 @@ def pipelineinit_parser(subparsers):
 	"""
 	Add main function snakemake preprocess pipeline argument parsers.
 	"""
-	workflow = subparsers.add_parser("pipeline_init", help = "Initialize the MultiSpace preprocessing workflow in a given directory. "
+	workflow = subparsers.add_parser("Pipelineinit", help = "Initialize the MultiSpace preprocessing workflow in a given directory. "
 		"This will install the snakemake rules and a config file in this directory. "
 		"You can configure the config file according to your needs, and run the workflow with Snakemake ")
 

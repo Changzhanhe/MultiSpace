@@ -16,8 +16,8 @@ from collections import defaultdict
 from STRIDE.Deconvolution import *
 
 
-def gettingepisignal_parser(subparsers):
-	workflow = subparsers.add_parser("getting_episignal", 
+def mappingcelltospatial_parser(subparsers):
+	workflow = subparsers.add_parser("Mappingcell", 
 		help = "Map single cell to spatial location and get spatial epigenetic signal.")
 
 	group_input = workflow.add_argument_group("Input arguments")

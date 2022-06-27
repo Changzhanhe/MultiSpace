@@ -2,7 +2,6 @@
 # -*-coding:utf-8 -*-
 '''
 @File    :   setup.py
-@Time    :   2021/04/16 12:34:01
 @Author  :   Zhanhe Chang
 @Contact :   changzhanhe98@163.com
 @License :   (C)Copyright 2021-2022, Zhanhe Chang
