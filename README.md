@@ -30,14 +30,26 @@ $ bash Miniconda3-latest-Linux-x86_64.sh
 ```bash
 git clone https://github.com/Changzhanhe/MultiSpace.git
 cd MultiSpace
+# Create a conda environment for MultiSpace.
 conda env create -f environment.yml -n multispace
+# Installing package
 conda activate multispace
 python setup.py install
 ```
 
 ### Install MultiSpace using conda
 ```bash
-conda install -c changzhanhe multispace
+# Create a python3.8 environment for installing MultiSpace.
+conda create -n multispace python=3.8
+# Install through the following commands:
+conda config --add channels defaults
+conda config --add channels dongqingsun
+conda config --add channels bioconda
+conda config --add channels conda-forge
+conda config --add channels changzhanhe
+# To make the installation faster, we recommend using mamba
+conda install mamba -c conda-forge
+mamba install -c changzhanhe multispace
 ```
 
 ## Usage
