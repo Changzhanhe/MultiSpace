@@ -11,7 +11,5 @@ scikit-learn>=0.24
 wheel>=0.36.2
 seaborn>=0.11.1
 scanpy>=1.6.0
-h5py>=2.10.0
 tables>=3.6.1
 pot>=0.7.0
-
