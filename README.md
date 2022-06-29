@@ -26,13 +26,18 @@ For full installation and usage of MultiSpace, please refer to the [documentatio
 $ wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
 $ bash Miniconda3-latest-Linux-x86_64.sh
 ```
-### Install MultiSpace
+### Install MultiSpace (Recommended)
 ```bash
 git clone https://github.com/Changzhanhe/MultiSpace.git
 cd MultiSpace
 conda env create -f environment.yml -n multispace
 conda activate multispace
 python setup.py install
+```
+
+### Install MultiSpace using conda
+```bash
+conda install -c changzhanhe multispace
 ```
 
 ## Usage
