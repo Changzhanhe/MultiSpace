@@ -1,6 +1,9 @@
 # MultiSpace
 
 ![Documentation Status](https://readthedocs.org/projects/multispace/badge/?version=latest)
+[![Anaconda-Server Badge](https://anaconda.org/changzhanhe/multispace/badges/license.svg)](https://anaconda.org/changzhanhe/multispace)
+[![Anaconda-Server Badge](https://anaconda.org/changzhanhe/multispace/badges/installer/conda.svg)](https://conda.anaconda.org/changzhanhe)
+[![Anaconda-Server Badge](https://anaconda.org/changzhanhe/multispace/badges/platforms.svg)](https://anaconda.org/changzhanhe/multispace)
 
 
 MultiSpace(Single-cell Multi Omics Analysis In Space) is a multi-omics pipeline integrated RNA Expression, DNA methylation and Chromatin Accessibility analysis built using snakemake.MultiSpace support scCOOL-seq, scNMT-seq for DNA analysis; Smart-seq2 for RNA analysis. MultiSpace combines several tools and packages to create an integrative pipeline, which enables three omics anaylsis from raw sequencing data (fastq files as input) through alignment, quality control, cell filtering, methylation site calling and filtering, generate site by cell and bin by cell matrix in single cell level. Besides preprocessing, MultiSpace also provides several downstream analysis functions, including (1) gene genebody/promoter DNA methylation ratio, (2) using the regulatory potential model to calculate gene activity score, (3) mapping single cell to spatial location and get spatial epigenetic (DNA methylation/Chromatin Accessibility) signal.
@@ -23,13 +26,30 @@ For full installation and usage of MultiSpace, please refer to the [documentatio
 $ wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
 $ bash Miniconda3-latest-Linux-x86_64.sh
 ```
-### Install MultiSpace
+### Install MultiSpace from Github (developing version)
 ```bash
 git clone https://github.com/Changzhanhe/MultiSpace.git
 cd MultiSpace
+# Create a conda environment for MultiSpace.
 conda env create -f environment.yml -n multispace
+# Installing package
 conda activate multispace
 python setup.py install
+```
+
+### Install MultiSpace using conda (stable version)
+```bash
+# Create a python3.8 environment for installing MultiSpace.
+conda create -n multispace python=3.8
+# Install through the following commands:
+conda config --add channels defaults
+conda config --add channels dongqingsun
+conda config --add channels bioconda
+conda config --add channels conda-forge
+conda config --add channels changzhanhe
+# To make the installation faster, we recommend using mamba
+conda install mamba -c conda-forge
+mamba install -c changzhanhe multispace
 ```
 
 ## Usage
