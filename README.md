@@ -2,7 +2,7 @@
 
 ![Documentation Status](https://readthedocs.org/projects/multispace/badge/?version=latest)
 [![Anaconda-Server Badge](https://anaconda.org/changzhanhe/multispace/badges/license.svg)](https://anaconda.org/changzhanhe/multispace)
-[![Anaconda-Server Badge](https://anaconda.org/changzhanhe/multispace/badges/installer/conda.svg)](https://conda.anaconda.org/changzhanhe)
+[![Anaconda-Server Badge](https://anaconda.org/changzhanhe/multispace/badges/version.svg)](https://anaconda.org/changzhanhe/multispace)
 [![Anaconda-Server Badge](https://anaconda.org/changzhanhe/multispace/badges/platforms.svg)](https://anaconda.org/changzhanhe/multispace)
 
 
