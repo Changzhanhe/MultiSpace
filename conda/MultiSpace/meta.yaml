@@ -5,7 +5,7 @@ source:
   path: ../../
 requirements:
   build:
-    - python >=3.7
+    - python >=3.8
     - pip
     - numpy ==1.21.5
     - scipy >=1.7.3
@@ -25,7 +25,7 @@ requirements:
     - bsmap =2.90
 
   run:
-    - python >=3.7
+    - python >=3.8
     - pip
     - numpy ==1.21.5
     - scipy >=1.7.3
