@@ -9,7 +9,7 @@ Here we use a multi-omics scNMT-seq dataset to demonstrate the simple usage of M
 Using MultiSpace to analysis
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Take E8.5 scNMT-seq data for example. Users should separate data in absolute folder if they have more than one stage.
+Take E8.5 scNMT-seq data for example. Users should better separate data in absolute folder if they have more than one stage.
 
 Step 1 Run MultiSpace Pipelineinit to initialize snakemake
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -165,7 +165,6 @@ Single omic clustering
 
 
 Using Seurat to cluster RNA gene count matrix by stage and celltype.
-----------------------------------------------------------------------
 
 
 Mouse embryo gene count matrix cluster by stage(from E4.5 to E7.5)
@@ -238,26 +237,93 @@ Mouse embryo gene count matrix cluster by stage(from E4.5 to E7.5)
    :align: center
 
 
-Using Signac to cluster WCG/GCH bin count matrix by stage and celltype.
--------------------------------------------------------------------------
+Using Signac to cluster WCG/GCH bin count matrix by stage.
+Take WCG bin matrix for example.
 
+.. code:: r
+   library(Signac)
+   library(Seurat)
+   library(ggplot2)
+   library(stringr)
+   library(reticulate)
+   library(Matrix)
+   np <- import("numpy")
+   scipy <-import("scipy")
+
+   feature = read.csv("WCG.bin.merge.peak",header = F)
+   usecell <- read.table("usecells.txt")
+   mydata <- h5read("WCG.bin_peak.h5", "Mcsc")
+   WCG_mat = sparseMatrix(x = as.numeric(mydata$data),j = as.numeric(mydata$indices),p = as.numeric(mydata$indptr),dims = c(4114260,985),index1 = FALSE)
+   colnames(WCG_mat) = usecell$V1
+   rownames(WCG_mat) = feature$V1
+   meta <- read.table("sample_metadata.txt",sep = "\t", header = T)
+   samplemeta = merge(meta,usecell, by.x = "sample",by.y = "V1")[,c('sample','stage','lineage10x')]
+   rownames(samplemeta) = samplemeta$sample
+   samplemeta$celltype = samplemeta$lineage10x
+
+   WCG <- CreateSeuratObject(
+    counts = WCG_mat,
+    assay = "peaks",
+    min.cells = 5,
+    meta = samplemeta
+   )
+   WCG@meta.data$celltype = samplemeta$celltype
+
+   WCG <- RunTFIDF(WCG)
+   WCG <- FindTopFeatures(WCG, min.cutoff = "q90")
+   WCG <- RunSVD(WCG)
+   WCG <- RunUMAP(
+     object = WCG,
+     reduction = 'lsi',
+     dims = 2:20
+   )
+
+   DimPlot(object = WCG, label = TRUE, reduction = "umap", group.by = "stage")
 
 
 .. image:: ../_static/img/thumbnail/wcgclusterbystage.png
-   :height: 350px
-   :align: center
+   :width: 50 %
+.. image:: ../_static/img/thumbnail/gchclusterbystage.png
+   :width: 50 %
+
+
+Using Signac to cluster WCG/GCH bin count matrix by celltype.
+
+.. code:: r
+   e75samplemeta = samplemeta[which(samplemeta$stage == "E7.5"),]
+   WCG_mat = WCG_mat[,e75samplemeta$sample]
+   e75WCG <- CreateSeuratObject(
+    counts = WCG_mat,
+    assay = "peaks",
+    min.cells = 3,
+    meta = e75samplemeta
+   )
+   e75WCG@meta.data$celltype = e75samplemeta$celltype
+
+   e75WCG <- RunTFIDF(e75WCG)
+   e75WCG <- FindTopFeatures(e75WCG, min.cutoff = "q90")
+   e75WCG <- RunSVD(e75WCG)
+   e75WCG <- RunUMAP(
+     object = e75WCG,
+     reduction = 'lsi',
+     dims = 2:20
+   )
+
+   DimPlot(object = e75WCG, label = TRUE, reduction = "umap", group.by = "celltype")
+
+.. image:: ../_static/img/thumbnail/wcgclusterbycelltype.png
+   :width: 50%
+.. image:: ../_static/img/thumbnail/gchclusterbycelltype.png
+   :width: 50%
+
 
 
 Multi omics clustering
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-.. code:: python
+.. code:: r
 
 
-Integrated analysis
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-.. code:: python
 
 
 Spatial multi-omics analysis

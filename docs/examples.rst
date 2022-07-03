@@ -6,7 +6,7 @@ Examples
    examples/Mouse_embryo
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :hidden:
 
    examples/Mouse_embryo.rst
