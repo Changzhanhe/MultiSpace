@@ -165,7 +165,6 @@ Single omic clustering
 
 
 Using Seurat to cluster RNA gene count matrix by stage and celltype.
-----------------------------------------------------------------------
 
 
 Mouse embryo gene count matrix cluster by stage(from E4.5 to E7.5)
@@ -239,7 +238,6 @@ Mouse embryo gene count matrix cluster by stage(from E4.5 to E7.5)
 
 
 Using Signac to cluster WCG/GCH bin count matrix by stage and celltype.
--------------------------------------------------------------------------
 
 
 
