@@ -40,7 +40,7 @@ def mappingcelltospatial_parser(subparsers):
 	group_input.add_argument("--model_dir", dest = "model_dir", default = None,
 		help = "If users have the pre-trained model using the same scRNA-seq dataset, please provide the path of 'model' directory.")
 	group_input.add_argument("--epi_binfile", dest = "epi_binfile", default = None,
-		help = "Location of WCG/GCH.bin_peak.h5"
+		help = "Location of WCG/GCH.bin_peak.h5."
 		"Calculate DNA methylation or chromatin accessibility epigenetic signal in spatial.")
 	group_input.add_argument("--epi_feature", dest = "epi_feature", default = None,
 		help = "Location of WCG/GCH/bin.merge.peak")
