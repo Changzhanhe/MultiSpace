@@ -1,8 +1,3 @@
-.. highlight:: shell
-
-.. role:: bash(code)
-   :language: bash
-
 
 Mouse embryo scNMT-seq data
 =================================
@@ -20,7 +15,8 @@ Step 1 Run MultiSpace Pipelineinit to initialize snakemake
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 The first step of running MultiSpace pipeline is to initialize pipeline config file (also initiation sample in same file)and a working directory. All these steps are implemented by :bash:`MultiSpace Pipelineinit` function. 
-::
+
+.. code:: shell
 
    MultiSpace Pipelineinit --species mm10 \
    --samplesheet metasheet.csv \
@@ -50,7 +46,7 @@ Step 2 Run snakemake to preprocess raw data
 
 After initialize config file and working directory, :bash:`snakemake -j 5` could be used to run snakemake in working directory. Users can customize cores number ,but be careful not to make the number too large in case limited memory.
 
-::
+.. code:: shell
 
    cd ~/Project/scNMT_WolfReik/
    snakemake -j 5
@@ -94,7 +90,7 @@ Step 3 Run MultiSpace Scorematrix to calculate WCG/GCH score matrix
 
 MultiSpace Scorematrix can calculate genebody or gene promoter methylation ratio using snakemake output file.
 
-::
+.. code:: shell
 
    MultiSpace Scorematrix --species mm10 --cell_barcode 04.WCG.GCH/usecell.txt \
    --file_path 04.WCG.GCH/ --outdir . --matrixtype WCG --region promoter --distance 2000
@@ -106,7 +102,7 @@ The results of :bash:`MultiSpace Scorematrix` are gene by cell matrix stored in 
 
 MultiSpace Scorematrix can calculate gene activity score using RP(regulatory potential) model.
 
-::
+.. code:: shell
 
    MultiSpace Scorematrix --species mm10 --cell_barcode 04.WCG.GCH/usecell.txt \
    --file_path 04.WCG.GCH/ --outdir . --matrixtype GCH --distance 10000
@@ -123,7 +119,7 @@ MultiSpace Mappingcell can map single cell to spatial location, and get spatiall
 Users can take :bash:`snakemake` output single cell gene expression matrix, bin by cell matrix and bin features as input.
 Additionally, users should offer a spatial gene count matrix and cell type file. The count matrix could be tab-separated plain-text file with genes as rows and spots as columns. The celltype file should be a tab-separated plain-text file without header. The first column should be the cell name, and the second column should be the corresponding celltype labels.
 
-::
+.. code:: shell
 
    MultiSpace Mappingcell --sc_count_file 05.Spatial/RNA_normalized.txt --sc_celltype_file celltype.txt \
    --st_count_file Spatial/seqFISH_scRNA/RNA_st_normalized.txt --spatial_location Spatial/seFISH_scRNA/loc_EM1.txt \
@@ -175,6 +171,7 @@ Using Seurat to cluster RNA gene count matrix by stage and celltype.
 Mouse embryo gene count matrix cluster by stage(from E4.5 to E7.5)
 
 .. code:: r
+
    library(Seurat)
    library(ggplot2)
    library(patchwork)
@@ -211,6 +208,7 @@ Mouse embryo gene count matrix cluster by stage(from E4.5 to E7.5)
 
 
 .. code:: r
+
    e75samplemeta = samplemeta[which(samplemeta$stage == "E7.5"),]
    e75RNA_mat = RNA_mat[,which(colnames(RNA_mat) %in% e75samplemeta$sample)]
 
@@ -245,7 +243,7 @@ Using Signac to cluster WCG/GCH bin count matrix by stage and celltype.
 
 
 
-.. image:: ./_static/img/thumbnail/wcgclusterbystage.png
+.. image:: ../_static/img/thumbnail/wcgclusterbystage.png
    :height: 350px
    :align: center
 
