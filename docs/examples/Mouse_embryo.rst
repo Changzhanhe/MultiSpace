@@ -175,6 +175,7 @@ Using Seurat to cluster RNA gene count matrix by stage and celltype.
 Mouse embryo gene count matrix cluster by stage(from E4.5 to E7.5)
 
 .. code:: r
+
    library(Seurat)
    library(ggplot2)
    library(patchwork)
@@ -211,6 +212,7 @@ Mouse embryo gene count matrix cluster by stage(from E4.5 to E7.5)
 
 
 .. code:: r
+
    e75samplemeta = samplemeta[which(samplemeta$stage == "E7.5"),]
    e75RNA_mat = RNA_mat[,which(colnames(RNA_mat) %in% e75samplemeta$sample)]
 
