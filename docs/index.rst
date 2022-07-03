@@ -7,7 +7,7 @@ Welcome to MultiSpace's documentation!
 ======================================
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
    :caption: Contents:
 
 
@@ -32,12 +32,12 @@ MultiSpace(Single-cell Multi Omics Analysis In Space) is a multi-omics pipeline 
 
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :hidden:
 
    installation
    usage
-   examples/Mouse_embryo
+   examples
    release_notes/index
 
 
