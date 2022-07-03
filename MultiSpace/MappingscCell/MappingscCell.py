@@ -23,14 +23,14 @@ def mappingcelltospatial_parser(subparsers):
 	group_input = workflow.add_argument_group("Input arguments")
 	group_input.add_argument("--sc_count_file", dest = "sc_count_file", default = None,
 		help = "Location of the single-cell count matrix file. "
-		"It could be '.h5' or tab-separated plain-text file with genes as rows and cells as columns. ")
+		"It could be tab-separated plain-text file with genes as rows and cells as columns. ")
 	group_input.add_argument("--sc_celltype_file", dest = "sc_anno_file", default = None,
 		help = "Location of the single-cell celltype annotation file. "
 		"The file should be a tab-separated plain-text file without header. "
 		"The first column should be the cell name, and the second column should be the corresponding celltype labels. ")
 	group_input.add_argument("--st_count_file", dest = "st_count_file", default = None,
 		help = "Location of the spatial gene count file. "
-		"It could be '.h5' or tab-separated plain-text file with genes as rows and spots as columns. ")
+		"It could be tab-separated plain-text file with genes as rows and spots as columns. ")
 	group_input.add_argument("--gene_use", dest = "gene_use", default = None,
 		help = "Location of the gene list file used to train the model. "
 		"It can also be specified as 'All', but it will take a longer time. "
