@@ -32,7 +32,7 @@ MultiSpace(Single-cell Multi Omics Analysis In Space) is a multi-omics pipeline 
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :hidden:
 
    installation
