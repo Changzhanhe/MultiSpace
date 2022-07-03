@@ -237,7 +237,6 @@ Mouse embryo gene count matrix cluster by stage(from E4.5 to E7.5)
    :align: center
 
 
-<<<<<<< HEAD
 Using Signac to cluster WCG/GCH bin count matrix by stage.
 Take WCG bin matrix for example.
 =======
