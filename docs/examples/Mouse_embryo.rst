@@ -247,7 +247,7 @@ Using Signac to cluster WCG/GCH bin count matrix by stage and celltype.
 
 
 
-.. image:: ./_static/img/thumbnail/wcgclusterbystage.png
+.. image:: ../_static/img/thumbnail/wcgclusterbystage.png
    :height: 350px
    :align: center
 
