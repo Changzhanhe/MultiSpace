@@ -206,6 +206,9 @@ Mouse embryo gene count matrix cluster by stage(from E4.5 to E7.5)
    :align: center
 
 
+Mouse embryo gene count matrix cluster by celltype in E7.5.
+
+
 .. code:: r
 
    e75samplemeta = samplemeta[which(samplemeta$stage == "E7.5"),]
@@ -237,12 +240,20 @@ Mouse embryo gene count matrix cluster by stage(from E4.5 to E7.5)
    :align: center
 
 
+<<<<<<< HEAD
+Using Signac to cluster WCG/GCH bin count matrix by stage(from E4.5 to E7.5).
+
+
+Take WCG bin matrix for example.
+
+=======
 Using Signac to cluster WCG/GCH bin count matrix by stage.
 Take WCG bin matrix for example.
 =======
 Using Signac to cluster WCG/GCH bin count matrix by stage and celltype.
 >>>>>>> 86b422a47b1e01ce5968969e5e6d23b0a44b0b5e
 
+>>>>>>> bce01ef200fa7dfb5764846a79b76189127373d9
 .. code:: r
    library(Signac)
    library(Seurat)
@@ -288,9 +299,11 @@ Using Signac to cluster WCG/GCH bin count matrix by stage and celltype.
    :width: 50 %
 .. image:: ../_static/img/thumbnail/gchclusterbystage.png
    :width: 50 %
+<<<<<<< HEAD
 
 
-Using Signac to cluster WCG/GCH bin count matrix by celltype.
+Using Signac to cluster WCG/GCH bin count matrix by celltype in E7.5.
+
 
 .. code:: r
    e75samplemeta = samplemeta[which(samplemeta$stage == "E7.5"),]
@@ -319,7 +332,194 @@ Using Signac to cluster WCG/GCH bin count matrix by celltype.
 .. image:: ../_static/img/thumbnail/gchclusterbycelltype.png
    :width: 50%
 
+=======
+>>>>>>> bce01ef200fa7dfb5764846a79b76189127373d9
 
+
+Using Signac to cluster WCG/GCH bin count matrix by celltype.
+
+.. code:: r
+<<<<<<< HEAD
+
+   library(reticulate)
+   library(Seurat)
+   library(Signac)
+   library(dplyr)
+   library(ggplot2)
+   library(rhdf5)
+   library(Matrix)
+   np <- import("numpy")
+   scipy <-import("scipy")
+   h5py <- import("h5py")
+
+   meta <- read.table("sample_metadata.txt",sep = "\t", header = T)
+   usecell <- read.table("usecells.txt")
+   samplemeta = merge(meta,usecell, by.x = "sample",by.y = "V1")[,c('sample','stage','lineage10x')]
+   rownames(samplemeta) = samplemeta$sample
+   samplemeta$celltype = samplemeta$lineage10x
+
+   RNA_mat <- as.data.frame(read.table("RNA_normalized.txt",header = T,row.names = 1, check.names=FALSE))
+
+   wcgfeature = read.csv("WCG.bin.merge.peak",header = F)
+   mydata <- h5read("WCG.bin_peak.h5", "Mcsc")
+   WCG_mat = sparseMatrix(x = as.numeric(mydata$data),j = as.numeric(mydata$indices),p = as.numeric(mydata$indptr),dims = c(4114260,985),index1 = FALSE)
+   colnames(WCG_mat) = usecell$V1
+   rownames(WCG_mat) = wcgfeature$V1
+=======
+   e75samplemeta = samplemeta[which(samplemeta$stage == "E7.5"),]
+   WCG_mat = WCG_mat[,e75samplemeta$sample]
+   e75WCG <- CreateSeuratObject(
+    counts = WCG_mat,
+    assay = "peaks",
+    min.cells = 3,
+    meta = e75samplemeta
+   )
+   e75WCG@meta.data$celltype = e75samplemeta$celltype
+
+   e75WCG <- RunTFIDF(e75WCG)
+   e75WCG <- FindTopFeatures(e75WCG, min.cutoff = "q90")
+   e75WCG <- RunSVD(e75WCG)
+   e75WCG <- RunUMAP(
+     object = e75WCG,
+     reduction = 'lsi',
+     dims = 2:20
+   )
+
+   DimPlot(object = e75WCG, label = TRUE, reduction = "umap", group.by = "celltype")
+
+.. image:: ../_static/img/thumbnail/wcgclusterbycelltype.png
+   :width: 50%
+.. image:: ../_static/img/thumbnail/gchclusterbycelltype.png
+   :width: 50%
+>>>>>>> bce01ef200fa7dfb5764846a79b76189127373d9
+
+   gchfeature = read.csv("GCH.bin.merge.peak",header = F)
+   mydata <- h5read("GCH.bin_peak.h5", "Mcsc")
+   GCH_mat = sparseMatrix(x = as.numeric(mydata$data),j = as.numeric(mydata$indices),p = as.numeric(mydata$indptr),dims = c(2645763,985),index1 = FALSE)
+   colnames(GCH_mat) = usecell$V1
+   rownames(GCH_mat) = gchfeature$V1
+
+<<<<<<< HEAD
+   seurat <- CreateSeuratObject(
+    counts = RNA_mat,
+    project = "RNA",
+    assay = "RNA",
+    metadata = samplemeta,
+    min.cells = 5
+   )
+   seurat[['WCG']] <- CreateAssayObject(counts = WCG_mat,min.cells = 10)
+   seurat[['GCH']] <- CreateAssayObject(counts = GCH_mat,min.cells = 10)
+   seurat@meta.data <- cbind(seurat@meta.data,samplemeta)
+
+   # RNA analysis
+   DefaultAssay(seurat) <- "RNA"
+   seurat <- SCTransform(seurat, verbose = FALSE) %>% RunPCA() %>% RunUMAP(dims = 1:50, reduction.name = 'umap.rna', reduction.key = 'rnaUMAP_')
+
+   # WCG analysis
+   # We exclude the first dimension as this is typically correlated with sequencing depth
+   DefaultAssay(seurat) <- "WCG"
+   seurat <- RunTFIDF(seurat)
+   seurat <- FindTopFeatures(seurat, min.cutoff = 'q90')
+   seurat <- RunSVD(seurat)
+   seurat <- RunUMAP(seurat, reduction = 'lsi', dims = 2:50, reduction.name = "umap.wcg", reduction.key = "wcgUMAP_")
+
+   # GCH analysis
+   # We exclude the first dimension as this is typically correlated with sequencing depth
+   DefaultAssay(seurat) <- "GCH"
+   seurat <- RunTFIDF(seurat)
+   seurat <- FindTopFeatures(seurat, min.cutoff = 'q90')
+   seurat <- RunSVD(seurat)
+   seurat <- RunUMAP(seurat, reduction = 'lsi', dims = 2:50, reduction.name = "umap.gch", reduction.key = "gchUMAP_")
+
+
+   DefaultAssay(seurat) <- "RNA"
+   seurat <- FindMultiModalNeighbors(seurat, reduction.list = list("pca", "lsi","lsi"), dims.list = list(1:50, 2:50, 2:50))
+   seurat <- RunUMAP(seurat, nn.name = "weighted.nn", reduction.name = "wnn.umap", reduction.key = "wnnUMAP_")
+   seurat <- FindClusters(seurat, graph.name = "wsnn", algorithm = 3, verbose = FALSE)
+
+   p1 <- DimPlot(seurat, reduction = "umap.rna", group.by = "stage", label = TRUE, label.size = 2.5, pt.size = 2, repel = TRUE) + ggtitle("RNA")
+   p2 <- DimPlot(seurat, reduction = "umap.wcg", group.by = "stage", label = TRUE, label.size = 2.5, pt.size = 2, repel = TRUE) + ggtitle("WCG")
+   p3 <- DimPlot(seurat, reduction = "umap.gch", group.by = "stage", label = TRUE, label.size = 2.5, pt.size = 2, repel = TRUE) + ggtitle("GCH")
+   p4 <- DimPlot(seurat, reduction = "wnn.umap", group.by = "stage", label = TRUE, label.size = 2.5, pt.size = 2, repel = TRUE) + ggtitle("WNN")
+   p1 + p2 + p3 +p4 & NoLegend() & theme(plot.title = element_text(hjust = 0.5))
+
+
+.. image:: ../_static/img/thumbnail/multiclusterbystage.png
+   :height: 350px
+   :align: center
+
+
+.. code:: r
+
+   E75meta <- samplemeta[samplemeta$stage == "E7.5" & samplemeta$celltype %in% c("Endoderm","Ectoderm","Mesoderm"),]
+   RNA_mat <- RNA_mat[,E75meta$sample]
+   seurat <- CreateSeuratObject(
+    counts = RNA_mat,
+    project = "RNA",
+    assay = "RNA",
+    metadata = E75meta,
+    min.cells = 3
+   )
+   seurat@meta.data <- cbind(seurat@meta.data,E75meta)
+   GCH_mat <- GCH_mat[,E75meta$sample]
+   seurat[['GCH']] <- CreateAssayObject(counts = GCH_mat,min.cells = 5)
+   WCG_mat <- WCG_mat[,E75meta$sample]
+   seurat[['WCG']] <- CreateAssayObject(counts = WCG_mat,min.cells = 5)
+
+   # RNA analysis
+   DefaultAssay(seurat) <- "RNA"
+   seurat <- SCTransform(seurat, verbose = FALSE) %>% RunPCA() %>% RunUMAP(dims = 1:50, reduction.name = 'umap.rna', reduction.key = 'rnaUMAP_')
+   #Note that this single command replaces NormalizeData(), ScaleData(), and FindVariableFeatures()
+   # GCH analysis
+   # We exclude the first dimension as this is typically correlated with sequencing depth
+   DefaultAssay(seurat) <- "GCH"
+   seurat <- RunTFIDF(seurat)
+   seurat <- FindTopFeatures(seurat, min.cutoff = 'q90')
+   seurat <- RunSVD(seurat)
+   seurat <- RunUMAP(seurat, reduction = 'lsi', dims = 2:50, reduction.name = "umap.gch", reduction.key = "gchUMAP_")
+
+   # RNA+GCH
+   DefaultAssay(seurat) <- "RNA"
+   seurat <- FindMultiModalNeighbors(seurat, reduction.list = list("pca", "lsi"), dims.list = list(1:50, 2:50),knn.range = 170,sd.scale = 1,k.nn = 30)
+   seurat <- RunUMAP(seurat, nn.name = "weighted.nn", reduction.name = "wnn.umap", reduction.key = "wnnUMAP_")
+   seurat <- FindClusters(seurat, graph.name = "wsnn", algorithm = 3, verbose = FALSE)
+
+   pdf("GCH+RNA.pdf",width = 10,height = 5)
+   p1 <- DimPlot(seurat, reduction = "umap.rna", group.by = "celltype", label = TRUE, label.size = 2.5, pt.size = 2, repel = TRUE) + ggtitle("RNA")
+   p2 <- DimPlot(seurat, reduction = "umap.gch", group.by = "celltype", label = TRUE, label.size = 2.5, pt.size = 2, repel = TRUE) + ggtitle("GCH")
+   p3 <- DimPlot(seurat, reduction = "wnn.umap", group.by = "celltype", label = TRUE, label.size = 2.5, pt.size = 2, repel = TRUE) + ggtitle("WNN")
+   p1 + p2 +p3  & theme(plot.title = element_text(hjust = 0.5))
+   dev.off()
+
+   # RNA analysis
+   DefaultAssay(seurat) <- "RNA"
+   seurat <- SCTransform(seurat, verbose = FALSE) %>% RunPCA() %>% RunUMAP(dims = 1:50, reduction.name = 'umap.rna', reduction.key = 'rnaUMAP_')
+   # WCG analysis
+   # We exclude the first dimension as this is typically correlated with sequencing depth
+   DefaultAssay(seurat) <- "WCG"
+   seurat <- RunTFIDF(seurat)
+   seurat <- FindTopFeatures(seurat, min.cutoff = 'q90')
+   seurat <- RunSVD(seurat)
+   seurat <- RunUMAP(seurat, reduction = 'lsi', dims = 2:50, reduction.name = "umap.wcg", reduction.key = "wcgUMAP_")
+
+   # RNA+WCG
+   DefaultAssay(seurat) <- "RNA"
+   seurat <- FindMultiModalNeighbors(seurat, reduction.list = list("pca", "lsi"), dims.list = list(1:50, 2:50),knn.range = 170,sd.scale = 1,k.nn = 30)
+   seurat <- RunUMAP(seurat, nn.name = "weighted.nn", reduction.name = "wnn.umap", reduction.key = "wnnUMAP_")
+   seurat <- FindClusters(seurat, graph.name = "wsnn", algorithm = 3, verbose = FALSE)
+
+   pdf("WCG+RNA.pdf",width = 10,height = 5)
+   p1 <- DimPlot(seurat, reduction = "umap.rna", group.by = "celltype", label = TRUE, label.size = 2.5, pt.size = 2, repel = TRUE) + ggtitle("RNA")
+   p2 <- DimPlot(seurat, reduction = "umap.wcg", group.by = "celltype", label = TRUE, label.size = 2.5, pt.size = 2, repel = TRUE) + ggtitle("WCG")
+   p3 <- DimPlot(seurat, reduction = "wnn.umap", group.by = "celltype", label = TRUE, label.size = 2.5, pt.size = 2, repel = TRUE) + ggtitle("WNN")
+   p1 + p2 +p3  & theme(plot.title = element_text(hjust = 0.5))
+   dev.off()
+
+
+.. image:: ../_static/img/thumbnail/multiclusterbycelltype.png
+   :height: 350px
+   :align: center
+=======
 
 Multi omics clustering
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -327,12 +527,110 @@ Multi omics clustering
 .. code:: r
 
 
+>>>>>>> bce01ef200fa7dfb5764846a79b76189127373d9
 
 
 Spatial multi-omics analysis
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-.. code:: python
+.. code:: r
+   library(reticulate)
+   library(data.table)
+   library(dplyr)
+   library(ggplot2)
+   library(Seurat)
+   library(Matrix)
+   library(Giotto)
+   library(Signac)
+   np <- import("numpy")
+   scipy <-import("scipy")
+
+   temp_dir = getwd()
+   temp_dir = '~/Temp/'
+   myinstructions = createGiottoInstructions(save_dir = temp_dir,
+                                             save_plot = TRUE, 
+                                             show_plot = FALSE)
+
+   # initialize spatial expression matrix
+   expr =  scipy$sparse$load_npz('../STRIDE/WCG_methy_mat.npz')
+   row = read.csv("../STRIDE/WCG_methy_mat_row.txt",header = FALSE)
+   spa_loc = read.table("Spa_location_Emb1z5.txt",sep = "\t")
+   rownames(expr) = row$V1
+   colnames(expr) = rownames(spa_loc)
+
+   signac <- CreateAssayObject(counts = expr)
+   signac <- RunTFIDF(signac)
+   signac <- FindTopFeatures(signac, min.cutoff = "q90")
+   rownames(expr) <- rownames(signac@data)
+   # giotto object 
+   seqfish_mini <- createGiottoObject(raw_exprs = expr,
+                                      norm_expr = signac@data,
+                                      spatial_locs = spa_loc,
+                                      instructions = myinstructions,cores = 3)
+
+   ## spatial grid
+   seqfish_mini <- createSpatialGrid(gobject = seqfish_mini,
+                                sdimx_stepsize = 0.5,
+                                sdimy_stepsize = 0.5,minimum_padding = 0.1)
+
+   spatPlot(gobject = seqfish_mini, show_grid = T, point_size = 1.5,
+            save_param = c(save_name = '8_a_grid'))
+
+
+   ## delaunay network: stats + creation
+   plotStatDelaunayNetwork(gobject = seqfish_mini, maximum_distance = 400, save_plot = F)
+   seqfish_mini = createSpatialNetwork(gobject = seqfish_mini, minimum_k = 10, maximum_distance_delaunay = 400)
+
+
+   km_spatialgenes = binSpect(seqfish_mini, bin_method = 'rank', cores = 3)
+   spatGenePlot(seqfish_mini, expression_values = 'normalized', genes = km_spatialgenes[c(1:4),]$genes,
+                point_shape = 'border', point_border_stroke = 0.1,
+                show_network = F, network_color = 'lightgrey', point_size = 0.8, 
+                cow_n_col = 2,
+                save_param = list(save_name = '10_a_spatialgenes_km'))
+
+
+   # 1. calculate spatial correlation scores 
+   ext_spatial_genes = km_spatialgenes[1:2500]$genes
+   spat_cor_netw_DT = detectSpatialCorGenes(seqfish_mini,
+                                            method = 'network', 
+                                            spatial_network_name = 'Delaunay_network',
+                                            subset_genes = ext_spatial_genes)
+
+   # 2. cluster correlation scores
+   spat_cor_netw_DT = clusterSpatialCorGenes(spat_cor_netw_DT, 
+                                             name = 'spat_netw_clus', k = 2)
+   heatmSpatialCorGenes(seqfish_mini, spatCorObject = spat_cor_netw_DT, 
+                        use_clus_name = 'spat_netw_clus')
+
+
+
+.. image:: ../_static/img/thumbnail/binspectclustercorrelation.png
+   :height: 350px
+   :align: center
+
+
+.. code::r 
+
+   netw_ranks = rankSpatialCorGroups(seqfish_mini, 
+                                     spatCorObject = spat_cor_netw_DT, 
+                                     use_clus_name = 'spat_netw_clus')
+
+   cluster_genes_DT = showSpatialCorGenes(spat_cor_netw_DT, 
+                                          use_clus_name = 'spat_netw_clus',
+                                          show_top_genes = 1)
+   cluster_genes = cluster_genes_DT$clus; names(cluster_genes) = cluster_genes_DT$gene_ID
+
+   seqfish_mini = createMetagenes(seqfish_mini, gene_clusters = cluster_genes, name = 'cluster_metagene')
+   spatCellPlot(seqfish_mini,
+                spat_enr_names = 'cluster_metagene',
+                cell_annotation_values = netw_ranks$clusters,
+                point_size = 0.7, cow_n_col = 3)
+
+
+.. image:: ../_static/img/thumbnail/epi_cluster.png
+   :height: 350px
+   :align: center
 
 
 
