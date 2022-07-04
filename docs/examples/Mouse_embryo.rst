@@ -240,12 +240,13 @@ Mouse embryo gene count matrix cluster by celltype in E7.5.
    :align: center
 
 
+
 Using Signac to cluster WCG/GCH bin count matrix by stage(from E4.5 to E7.5).
-
-
 Take WCG bin matrix for example.
 
+
 .. code:: r
+
    library(Signac)
    library(Seurat)
    library(ggplot2)
@@ -292,10 +293,12 @@ Take WCG bin matrix for example.
    :width: 50 %
 
 
+
 Using Signac to cluster WCG/GCH bin count matrix by celltype in E7.5.
 
 
 .. code:: r
+
    e75samplemeta = samplemeta[which(samplemeta$stage == "E7.5"),]
    WCG_mat = WCG_mat[,e75samplemeta$sample]
    e75WCG <- CreateSeuratObject(
@@ -485,6 +488,7 @@ Spatial multi-omics analysis
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 .. code:: r
+
    library(reticulate)
    library(data.table)
    library(dplyr)
