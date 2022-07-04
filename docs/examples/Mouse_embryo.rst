@@ -566,7 +566,8 @@ Spatial multi-omics analysis
    :align: center
 
 
-.. code::r 
+
+.. code:: r 
 
    netw_ranks = rankSpatialCorGroups(seqfish_mini, 
                                      spatCorObject = spat_cor_netw_DT, 
