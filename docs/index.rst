@@ -15,7 +15,6 @@ Welcome to MultiSpace's documentation!
 
 .. |Docs| image:: https://readthedocs.org/projects/multispace/badge/?version=latest
    :target: https://multispace.readthedocs.io
-   image:: https://anaconda.org/changzhanhe/multispace/badges/version.svg
 
 .. |Conda| image:: https://anaconda.org/changzhanhe/multispace/badges/version.svg
 
