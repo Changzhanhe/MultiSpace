@@ -240,20 +240,11 @@ Mouse embryo gene count matrix cluster by celltype in E7.5.
    :align: center
 
 
-<<<<<<< HEAD
 Using Signac to cluster WCG/GCH bin count matrix by stage(from E4.5 to E7.5).
 
 
 Take WCG bin matrix for example.
 
-=======
-Using Signac to cluster WCG/GCH bin count matrix by stage.
-Take WCG bin matrix for example.
-=======
-Using Signac to cluster WCG/GCH bin count matrix by stage and celltype.
->>>>>>> 86b422a47b1e01ce5968969e5e6d23b0a44b0b5e
-
->>>>>>> bce01ef200fa7dfb5764846a79b76189127373d9
 .. code:: r
    library(Signac)
    library(Seurat)
@@ -299,7 +290,6 @@ Using Signac to cluster WCG/GCH bin count matrix by stage and celltype.
    :width: 50 %
 .. image:: ../_static/img/thumbnail/gchclusterbystage.png
    :width: 50 %
-<<<<<<< HEAD
 
 
 Using Signac to cluster WCG/GCH bin count matrix by celltype in E7.5.
@@ -332,14 +322,12 @@ Using Signac to cluster WCG/GCH bin count matrix by celltype in E7.5.
 .. image:: ../_static/img/thumbnail/gchclusterbycelltype.png
    :width: 50%
 
-=======
->>>>>>> bce01ef200fa7dfb5764846a79b76189127373d9
 
 
-Using Signac to cluster WCG/GCH bin count matrix by celltype.
+Multi omics clustering
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 .. code:: r
-<<<<<<< HEAD
 
    library(reticulate)
    library(Seurat)
@@ -365,33 +353,6 @@ Using Signac to cluster WCG/GCH bin count matrix by celltype.
    WCG_mat = sparseMatrix(x = as.numeric(mydata$data),j = as.numeric(mydata$indices),p = as.numeric(mydata$indptr),dims = c(4114260,985),index1 = FALSE)
    colnames(WCG_mat) = usecell$V1
    rownames(WCG_mat) = wcgfeature$V1
-=======
-   e75samplemeta = samplemeta[which(samplemeta$stage == "E7.5"),]
-   WCG_mat = WCG_mat[,e75samplemeta$sample]
-   e75WCG <- CreateSeuratObject(
-    counts = WCG_mat,
-    assay = "peaks",
-    min.cells = 3,
-    meta = e75samplemeta
-   )
-   e75WCG@meta.data$celltype = e75samplemeta$celltype
-
-   e75WCG <- RunTFIDF(e75WCG)
-   e75WCG <- FindTopFeatures(e75WCG, min.cutoff = "q90")
-   e75WCG <- RunSVD(e75WCG)
-   e75WCG <- RunUMAP(
-     object = e75WCG,
-     reduction = 'lsi',
-     dims = 2:20
-   )
-
-   DimPlot(object = e75WCG, label = TRUE, reduction = "umap", group.by = "celltype")
-
-.. image:: ../_static/img/thumbnail/wcgclusterbycelltype.png
-   :width: 50%
-.. image:: ../_static/img/thumbnail/gchclusterbycelltype.png
-   :width: 50%
->>>>>>> bce01ef200fa7dfb5764846a79b76189127373d9
 
    gchfeature = read.csv("GCH.bin.merge.peak",header = F)
    mydata <- h5read("GCH.bin_peak.h5", "Mcsc")
@@ -399,7 +360,6 @@ Using Signac to cluster WCG/GCH bin count matrix by celltype.
    colnames(GCH_mat) = usecell$V1
    rownames(GCH_mat) = gchfeature$V1
 
-<<<<<<< HEAD
    seurat <- CreateSeuratObject(
     counts = RNA_mat,
     project = "RNA",
@@ -519,15 +479,6 @@ Using Signac to cluster WCG/GCH bin count matrix by celltype.
 .. image:: ../_static/img/thumbnail/multiclusterbycelltype.png
    :height: 350px
    :align: center
-=======
-
-Multi omics clustering
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-.. code:: r
-
-
->>>>>>> bce01ef200fa7dfb5764846a79b76189127373d9
 
 
 Spatial multi-omics analysis
