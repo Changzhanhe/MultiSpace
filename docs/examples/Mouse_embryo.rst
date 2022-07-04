@@ -560,9 +560,11 @@ Spatial multi-omics analysis
 
 
 
+
 .. image:: ../_static/img/thumbnail/binspectclustercorrelation.png
    :height: 350px
    :align: center
+
 
 
 .. code::r 
@@ -581,6 +583,7 @@ Spatial multi-omics analysis
                 spat_enr_names = 'cluster_metagene',
                 cell_annotation_values = netw_ranks$clusters,
                 point_size = 0.7, cow_n_col = 3)
+
 
 
 .. image:: ../_static/img/thumbnail/epi_cluster.png
