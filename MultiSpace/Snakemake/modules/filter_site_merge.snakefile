@@ -111,6 +111,23 @@ rule WCGmr2binary:
 
 
 
+rule getRpeatsMethy:
+	input:
+		config['dnadir'] + config['site'] + "{sample}/{sample}.WCG.site.sorted.bed"
+	output:
+		config['dnadir'] + config['site'] + "{sample}/{sample}.repeat.LINE",
+		config['dnadir'] + config['site'] + "{sample}/{sample}.repeat.LTR"
+	params:
+		repeatLINE = config['repeatLINE'],
+		repeatLTR = config['repeatLTR']
+	shell:
+		""" bedtools map -a {params.repeatLINE} -b {input[0]} -c 5 -o mean| awk '{FS="\t";OFS="\t"}{if($6 != ".")print $0}' - |\
+		 awk 'NR>1{arr[$4] += $6;count[$4] += 1}END{for (a in arr){if (arr[a] != 0) print a "\t " arr[a] / count[a]}}' - > {output[0]}     &&\
+		    bedtools map -a {params.repeatLTR} -b {input[0]} -c 5 -o mean| awk '{FS="\t";OFS="\t"}{if($6 != ".")print $0}' - |\
+		 awk 'NR>1{arr[$4] += $6;count[$4] += 1}END{for (a in arr){if (arr[a] != 0) print a "\t " arr[a] / count[a]}}' - > {output[1]}  """
+
+
+
 #WCG 500bp >= 1 site
 rule WCGmergesite:
 	input:
@@ -237,6 +254,35 @@ rule GCHmergebin:
 		awk '!a[$0]++' {output[0]}	> {output[1]}			         &&\
 		cat {output[1]} | sort -t "_" -k1,1 -k2,2n  > {output[2]}    """
 
+
+
+rule LINEmethmatrix:
+	input:
+		config['dnadir'] + config['site'] + "{sample}/{sample}.repeat.LINE",
+	output:
+		config['dnadir'] + config['site'] + "LINEmeth.csv",
+	params:
+		repeatmeth=config['Repeat_meth'],
+		cell=config['dnadir'] + config['site'] + "usecells.txt",
+		path=config['dnadir'] + config['site']
+	message: "GENERATE WCG BIN BY CELL MATRIX "
+	shell:
+		"""python {params.repeatmeth} --usecell {params.cell} --path {params.path} --methtype LINE"""
+
+
+
+rule LTRmethmatrix:
+	input:
+		config['dnadir'] + config['site'] + "{sample}/{sample}.repeat.LTR",
+	output:
+		config['dnadir'] + config['site'] + "LTRmeth.csv",
+	params:
+		repeatmeth=config['Repeat_meth'],
+		cell=config['dnadir'] + config['site'] + "usecells.txt",
+		path=config['dnadir'] + config['site']
+	message: "GENERATE WCG BIN BY CELL MATRIX "
+	shell:
+		"""python {params.repeatmeth} --usecell {params.cell} --path {params.path} --methtype LTR"""
 
 
 

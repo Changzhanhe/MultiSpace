@@ -97,16 +97,45 @@ rule feature_count:
 		ref_gtf=config['star_annotation'],
 		threads=5,
 		attributetype="gene_id"
+	log: config['rnadir'] + config['bam'] +  "log/{sample}.log"
 	message: "QUANTIFICATION: RNA quantification using FeatureCount"
 	shell:
-		"""featureCounts -T {params.threads} -p -t {params.featuretype} -g {params.attributetype} -a {params.ref_gtf} -o {output[0]} {input} &&\
+		"""featureCounts -T {params.threads} -p -t {params.featuretype} -g {params.attributetype} -a {params.ref_gtf} -o {output[0]} {input} >> {log} 2>&1 &&\
 		cut -f 1,7- {output[0]} > {output[2]} &&\
 		sed -i '1d' {output[2]}"""
 
 
 
-
-
+rule repeatmasker:
+	input:
+		lambda wildcards: expand(config['rnadir'] + config['bam'] + "{sample}Aligned.sortedByCoord.out.bam", sample = get_dnausecells(wildcards)),
+	output:
+		temp(config['rnadir'] + config['bam'] + "repeat.LINE.gtf"),
+		temp(config['rnadir'] + config['bam'] + "repeat.LTR.gtf"),		
+		temp(config['rnadir'] + config['bam'] + "count.LINE.repeat"),
+		temp(config['rnadir'] + config['bam'] + "count.LINE.repeat.summary"),
+		temp(config['rnadir'] + config['bam'] + "count.LTR.repeat"),
+		temp(config['rnadir'] + config['bam'] + "count.LTR.repeat.summary"),		
+		config['rnadir'] + config['bam'] + "repeat.LINE.txt",
+		config['rnadir'] + config['bam'] + "repeat.LTR.txt"
+	params:
+		featuretype="exon",
+		thread=5,
+		attributetype="gene_id"	，
+		repeatLINE = config['repeatLINE'],
+		repeatLTR = config['repeatLTR']
+	log: config['rnadir'] + config['bam'] +  "log/{sample}.log"
+	message: "QUANTIFICATION: Repeats LINE and LTR quantification using FeatureCount"
+	shell:
+		"""awk 'OFS="\t"{print $1,"rmsk","exon",$2,$3,".",$5,".","gene_id \""$4"\";transcript_id \""$4"\";"}' {params.repeatLINE} > {output[0]} &&\
+		   awk 'OFS="\t"{print $1,"rmsk","exon",$2,$3,".",$5,".","gene_id \""$4"\";transcript_id \""$4"\";"}' {params.repeatLTR} > {output[1]} &&\
+		   featureCounts -t {params.featuretype} -g {params.attributetype} --primary -s 2 -p -T {params.thread} -a {outout[0]} -o {output[2]} {input} >> {log} 2>&1 &&\
+		   featureCounts -t {params.featuretype} -g {params.attributetype} --primary -s 2 -p -T {params.thread} -a {output[1]} -o {output[4]} {input} >> {log} 2>&1 &&\
+		   cut -f 1,7- {output[2]} > {output[6]} &&\
+		   sed -i '1d' {output[6]} &&\
+		   cut -f 1,7- {output[4]} > {output[7]} &&\
+		   sed -i '1d' {output[7]}
+		   """
 
 
 

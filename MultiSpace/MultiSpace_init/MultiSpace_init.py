@@ -77,7 +77,10 @@ def PipelineConfig(species, samplesheet, star_annotation, fasta, fasta_fai, lamb
 		pass
 
 	pkgpath = resource_filename('MultiSpace', 'Snakemake')
+	annopath = resource_filename('MultiSpace', 'annotations')
 	template_file = os.path.join(pkgpath, "config_template.yaml")
+	repeatLINEfile = os.path.join(annopath, species, ".repeat.LINE.merge.bed")
+	repeatLTRfile = os.path.join(annopath, species, ".repeat.LTR.merge.bed")
 	configfile = os.path.join(directory, "config.yaml")
 	config_template = Template(open(template_file, "r").read(), trim_blocks=True, lstrip_blocks=True)
 	with open(configfile, "w") as configout:
@@ -94,7 +97,9 @@ def PipelineConfig(species, samplesheet, star_annotation, fasta, fasta_fai, lamb
 				fasta_fai = os.path.abspath(fasta_fai),
 				lambda_fasta = os.path.abspath(lambda_fasta),
 				star_annotation = os.path.abspath(star_annotation),
-				star_index = os.path.abspath(star_index)))
+				star_index = os.path.abspath(star_index),
+				repeat_line = os.path.abspath(repeatLINEfile),
+				repeat_ltr = os.path.abspath(repeatLTRfile)))
 
 
 	source = os.path.join(pkgpath, "Snakefile")

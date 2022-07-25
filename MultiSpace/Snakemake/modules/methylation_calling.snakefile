@@ -135,6 +135,7 @@ rule GCH_site_num:
 		"wc -l {input} >> {output}  "
 
 
+
 rule WCG_site_num:
 	input:
 		expand(config['dnadir'] + config['site'] + "{sample}/{sample}.WCG.{ext}", sample = config['runs'],ext = ['chr1_chr6','chr7_chr12','chr13_chrY']),

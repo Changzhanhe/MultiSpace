@@ -11,7 +11,6 @@ def matrix_target(wildcards):
 
 
 
-
 rule WCGbinbycell:
 	input:
 		config['dnadir'] + config['site'] + "WCG.bin.merge.peak"
@@ -54,7 +53,7 @@ rule WCGsitebycell:
 		sitepath=config['dnadir'] + config['site']
 	message: "GENERATE WCG SITE BY CELL MATRIX "
 	shell:
-		"""python {params.sitemat} --usecell {params.cell} --sitepath {params.sitepath} --type WCG --chr all"""
+		"""python {params.sitemat} --usecell {params.cell} --path {params.sitepath} --type WCG --chr all"""
 
 	
 

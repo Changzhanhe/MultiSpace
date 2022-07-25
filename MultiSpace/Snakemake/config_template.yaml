@@ -11,6 +11,8 @@ fasta_fai: {{ fasta_fai }}
 lambda_fasta: {{ lambda_fasta }}
 star_index: {{ star_index }}
 star_annotation: {{ star_annotation }}
+repeat_line: {{ repeat_line }}
+repeat_ltr: {{ repeat_ltr }}
 
 
 #sub dir
@@ -31,5 +33,5 @@ Site_binary: "./modules/scripts/site_binary.py"
 QCtable: "./modules/scripts/QCtable.py"
 Bin_matrix: "./modules/scripts/bin_matrix.py"
 Site_matrix: "./modules/scripts/site_matrix.py"
-
+Repeat_meth: "./modules/scripts/repeat_meth.py"
 
