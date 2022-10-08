@@ -10,7 +10,7 @@ fasta: {{ fasta }}
 fasta_fai: {{ fasta_fai }}
 lambda_fasta: {{ lambda_fasta }}
 star_index: {{ star_index }}
-star_annotation: {{ star_annotation }}
+rna_annotation: {{ star_annotation }}
 repeat_line: {{ repeat_line }}
 repeat_ltr: {{ repeat_ltr }}
 

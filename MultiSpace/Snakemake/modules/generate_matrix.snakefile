@@ -7,6 +7,9 @@ def matrix_target(wildcards):
 	ls.append(config['dnadir'] + config['site'] + "GCH.chr1_chr6.site_peak.h5")
 	ls.append(config['dnadir'] + config['site'] + "GCH.chr7_chr12.site_peak.h5")
 	ls.append(config['dnadir'] + config['site'] + "GCH.chr13_chrY.site_peak.h5")
+	ls.append(config['dnadir'] + config['site'] + "LINEmeth.csv")
+	ls.append(config['dnadir'] + config['site'] + "LTRmeth.csv")
+	ls.append(config['dnadir'] + config['site'] + "SINEmeth.csv")
 	return ls
 
 
@@ -75,6 +78,51 @@ rule GCHsitebycell:
 		"""python {params.sitemat} --usecell {params.cell} --sitepath {params.sitepath} --type GCH --chr chr1_chr6 &&\
 		   python {params.sitemat} --usecell {params.cell} --sitepath {params.sitepath} --type GCH --chr chr7_chr12 &&\
 		   python {params.sitemat} --usecell {params.cell} --sitepath {params.sitepath} --type GCH --chr chr13_chrY """
+
+
+
+rule LINEmethmatrix:
+	input:
+		config['dnadir'] + config['site'] + "{sample}/{sample}.repeat.LINE",
+	output:
+		config['dnadir'] + config['site'] + "LINEmeth.csv",
+	params:
+		repeatmeth=config['Repeat_meth'],
+		cell=config['dnadir'] + config['site'] + "usecells.txt",
+		path=config['dnadir'] + config['site']
+	message: "GENERATE WCG BIN BY CELL MATRIX "
+	shell:
+		"""python {params.repeatmeth} --usecell {params.cell} --path {params.path} --methtype LINE --repeat methylation"""
+
+
+
+rule LTRmethmatrix:
+	input:
+		config['dnadir'] + config['site'] + "{sample}/{sample}.repeat.LTR",
+	output:
+		config['dnadir'] + config['site'] + "LTRmeth.csv",
+	params:
+		repeatmeth=config['Repeat_meth'],
+		cell=config['dnadir'] + config['site'] + "usecells.txt",
+		path=config['dnadir'] + config['site']
+	message: "GENERATE WCG BIN BY CELL MATRIX "
+	shell:
+		"""python {params.repeatmeth} --usecell {params.cell} --path {params.path} --methtype LTR --repeat methylation"""
+
+
+rule SINEmethmatrix:
+	input:
+		config['dnadir'] + config['site'] + "{sample}/{sample}.repeat.SINE",
+	output:
+		config['dnadir'] + config['site'] + "SINEmeth.csv",
+	params:
+		repeatmeth=config['Repeat_meth'],
+		cell=config['dnadir'] + config['site'] + "usecells.txt",
+		path=config['dnadir'] + config['site']
+	message: "GENERATE WCG BIN BY CELL MATRIX "
+	shell:
+		"""python {params.repeatmeth} --usecell {params.cell} --path {params.path} --methtype SINE --repeat methylation"""
+
 
 
 rule rmsite:

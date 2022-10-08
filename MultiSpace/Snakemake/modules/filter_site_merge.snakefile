@@ -31,6 +31,8 @@ def site_target(wildcards):
 		ls.append(config['dnadir'] + config['site'] + "%s/%s.GCH.chr1_chr6.binary.bed" % (sample,sample))
 		ls.append(config['dnadir'] + config['site'] + "%s/%s.GCH.chr7_chr12.binary.bed" % (sample,sample))
 		ls.append(config['dnadir'] + config['site'] + "%s/%s.GCH.chr13_chrY.binary.bed" % (sample,sample))
+		ls.append(config['dnadir'] + config['site'] + "%s/%s.repeat.LINE" % (sample, sample))
+		ls.append(config['dnadir'] + config['site'] + "%s/%s.repeat.LTR" % (sample, sample))
 	ls.append(config['dnadir'] + config['site'] + "WCG.uniq.peak")
 	ls.append(config['dnadir'] + config['site'] + "GCH.chr1_chr6.uniq.peak")
 	ls.append(config['dnadir'] + config['site'] + "GCH.chr7_chr12.uniq.peak")
@@ -75,7 +77,7 @@ rule GCHmr2binary:
 		binary=config['Site_binary']
 	message: "TRANSFORM TO BINARY FILE: {wildcards.sample}.GCH.binary.bed"
 	shell:
-		"""cat {input[0]} | awk '{{OFS="\\t"}}{{if ($5 >= 2)print $1,$2-1,$2,$3,$4}}' | sort -k1,1 -k2,2n - > {output[0]}    &&\
+		"""cat {input[0]} | awk '{{OFS="\\t"}}{{if ($5 >= 2)print $1,$2-1,$2,$3,$4}}' | sort -k1,1 -k2,2n - > {o-utput[0]}    &&\
 		   cut -f 1,2,3,5 {output[0]} > {output[3]}                                                                          &&\
 		   python {params.binary} --peak {output[3]} --out {output[6]}  --type GCH                                           &&\
 		   cat {input[1]} | awk '{{OFS="\\t"}}{{if ($5 >= 2)print $1,$2-1,$2,$3,$4}}' | sort -k1,1 -k2,2n - > {output[1]}    &&\
@@ -121,10 +123,10 @@ rule getRpeatsMethy:
 		repeatLINE = config['repeatLINE'],
 		repeatLTR = config['repeatLTR']
 	shell:
-		""" bedtools map -a {params.repeatLINE} -b {input[0]} -c 5 -o mean| awk '{FS="\t";OFS="\t"}{if($6 != ".")print $0}' - |\
-		 awk 'NR>1{arr[$4] += $6;count[$4] += 1}END{for (a in arr){if (arr[a] != 0) print a "\t " arr[a] / count[a]}}' - > {output[0]}     &&\
-		    bedtools map -a {params.repeatLTR} -b {input[0]} -c 5 -o mean| awk '{FS="\t";OFS="\t"}{if($6 != ".")print $0}' - |\
-		 awk 'NR>1{arr[$4] += $6;count[$4] += 1}END{for (a in arr){if (arr[a] != 0) print a "\t " arr[a] / count[a]}}' - > {output[1]}  """
+		""" bedtools map -a {params.repeatLINE} -b {input[0]} -c 5 -o mean| awk '{{FS="\\t";OFS="\\t"}}{{if($6 != ".")print $0}}' - |\
+		 awk 'NR>1{{arr[$4] += $6;count[$4] += 1}}END{{for (a in arr){{if (arr[a] != 0) print a "\\t " arr[a] / count[a]}}}}' - > {output[0]}     &&\
+		    bedtools map -a {params.repeatLTR} -b {input[0]} -c 5 -o mean| awk '{{FS="\\t";OFS="\\t"}}{{if($6 != ".")print $0}}' - |\
+		 awk 'NR>1{{arr[$4] += $6;count[$4] += 1}}END{{for (a in arr){{if (arr[a] != 0) print a "\\t " arr[a] / count[a]}}}}' - > {output[1]}  """
 
 
 
@@ -256,33 +258,6 @@ rule GCHmergebin:
 
 
 
-rule LINEmethmatrix:
-	input:
-		config['dnadir'] + config['site'] + "{sample}/{sample}.repeat.LINE",
-	output:
-		config['dnadir'] + config['site'] + "LINEmeth.csv",
-	params:
-		repeatmeth=config['Repeat_meth'],
-		cell=config['dnadir'] + config['site'] + "usecells.txt",
-		path=config['dnadir'] + config['site']
-	message: "GENERATE WCG BIN BY CELL MATRIX "
-	shell:
-		"""python {params.repeatmeth} --usecell {params.cell} --path {params.path} --methtype LINE"""
-
-
-
-rule LTRmethmatrix:
-	input:
-		config['dnadir'] + config['site'] + "{sample}/{sample}.repeat.LTR",
-	output:
-		config['dnadir'] + config['site'] + "LTRmeth.csv",
-	params:
-		repeatmeth=config['Repeat_meth'],
-		cell=config['dnadir'] + config['site'] + "usecells.txt",
-		path=config['dnadir'] + config['site']
-	message: "GENERATE WCG BIN BY CELL MATRIX "
-	shell:
-		"""python {params.repeatmeth} --usecell {params.cell} --path {params.path} --methtype LTR"""
 
 
 

@@ -38,9 +38,7 @@ def pipelineinit_parser(subparsers):
 		required = True,
 		default = "",
 		help = "Genome fasta file for mapping."
-		"Users can just download the fasta file for human and mouse from UCSC."
-		"eg. http://hgdownload.cse.ucsc.edu/goldenPath/mm10/bigZips/chromFa.tar.gz and remove Random or Unkown chromosome."
-		"The fasta file only contains chrN, where N is the name of the chromosome.")
+		"Users should provide fasta file for human and mouse only containing chrN, where N is the name of defined chromosome.")
 	group_reference.add_argument("--fasta_fai", dest = "fasta_fai", type = str,
 		required = True,
 		default = "",
@@ -51,12 +49,11 @@ def pipelineinit_parser(subparsers):
 		default = "",
 		help = "Genome fasta file containing lambda sequence for bsmap mapping."
 		"Users can add lambda sequence to fasta file showed upper.")
-	group_reference.add_argument("--star_annotation", dest = "star_annotation", type = str,
+	group_reference.add_argument("--rna_annotation", dest = "rna_annotation", type = str,
 		required = True,
 		default = "",
-		help = "Path of the UCSC annotation file required for . "
-		"Users can just download the annotation file for human and mouse from UCSC."
-		"eg. http://hgdownload.soe.ucsc.edu/goldenPath/mm10/bigZips/genes/mm10.refGene.gtf.gz")
+		help = "Path of the annotation file required for . "
+		"Users can define or provide annotation files themselves.")
 	group_reference.add_argument("--star_index", dest = "star_index", type = str,
 		default = "",
 		help = "Path of the reference index file for  STAR mapping."
@@ -96,7 +93,7 @@ def PipelineConfig(species, samplesheet, star_annotation, fasta, fasta_fai, lamb
 				fasta = os.path.abspath(fasta),
 				fasta_fai = os.path.abspath(fasta_fai),
 				lambda_fasta = os.path.abspath(lambda_fasta),
-				star_annotation = os.path.abspath(star_annotation),
+				rna_annotation = os.path.abspath(rna_annotation),
 				star_index = os.path.abspath(star_index),
 				repeat_line = os.path.abspath(repeatLINEfile),
 				repeat_ltr = os.path.abspath(repeatLTRfile)))
