@@ -20,6 +20,10 @@ For full installation and usage of MultiSpace, please refer to the [documentatio
 * Use Snakemake to preprocess raw data. Add pipeline initiation function.
 * Add mapping single cell to spatial location, DNA methylation ratio, gene activity score using RP-model functions.
 
+### v0.0.2
+* Add calculating repeats elements(LINE and LTR) expression and methylation level function.
+* Upload hg38 and mm10 repeats annotation files.
+
 ## Installation
 ### Use the following commands to install Minicoda3：
 ``` bash
