@@ -51,23 +51,24 @@ conda config --add channels dongqingsun
 conda config --add channels bioconda
 conda config --add channels conda-forge
 conda config --add channels changzhanhe
-# To make the installation faster, we recommend using mamba
-conda install mamba -c conda-forge
-mamba install -c changzhanhe multispace
+conda install -c changzhanhe multispace
 ```
 
 ## Usage
 ```bash
 usage: MultiSpace [-h] [-v] {Pipelineinit,Scorematrix,Mappingcell} ...
 
-MultiSpace(Single-cell Multi Omics Analysis In Space) is a multi-omics pipeline integrated RNA Expression, DNA methylation and Chromatin Accessibility analysis built using snakemake.
+MultiSpace(Single-cell Multi-Omics Analysis In Space) is a s a computational framework that combines single-cell
+multi-omic data such as scCOOL-seq with spatial transcriptomic information.
 
 positional arguments:
   {Pipelineinit,Scorematrix,Mappingcell}
-    Pipelineinit        Initialize the MultiSpace preprocessing workflow in a given directory. This will install the snakemake rules and a config file in this directory. You can configure the config file
-                        according to your needs, and run the workflow with Snakemake.
-    Scorematrix         Calculate each gene a gene by cell score matrix across all cells. WCG: Genebody/Promoter methylation ratio matrix. GCH: Gene activity score matrix.
-    Mappingcell         Map single cell to spatial location according to expression similarity and get spatial epigenetic signal.
+    Pipelineinit        Initialize the MultiSpace preprocessing workflow in a given directory. This will install
+                        the snakemake rules and a config file in this directory. You can configure the config
+                        file according to your needs, and run the workflow with Snakemake
+    Scorematrix         Calculate each gene a gene by cell score matrix across all cells. WCG: Genebody/Promoter
+                        methylation ratio matrix. GCH: Gene activity score matrix.
+    Mappingcell         Map single cell to spatial location and get spatial epigenetic signal.
 
 optional arguments:
   -h, --help            show this help message and exit
