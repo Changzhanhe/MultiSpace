@@ -17,7 +17,7 @@ def main():
     Add main function argument parsers.
     """
 
-    parser = ap.ArgumentParser(description = "MultiSpace(Single-cell Multi Omics Analysis In Space) is a multi-omics pipeline integrated RNA Expression, DNA methylation and Chromatin Accessibility analysis built using snakemake.")
+    parser = ap.ArgumentParser(description = "MultiSpace(Single-cell Multi-Omics Analysis In Space) is a s a computational framework that combines single-cell multi-omic data such as scCOOL-seq with spatial transcriptomic information.")
     parser.add_argument("-v", "--version", action = "store_true", help = "Print version info.")
 
     subparsers = parser.add_subparsers(dest = "subcommand")

@@ -42,9 +42,7 @@ Step 2 Install MultiSpace.
 ::::::::::::::::::::::::::::::::::::::::::::::::
 ::
 
-   # To make the installation faster, we recommend using mamba
-   conda install mamba -c conda-forge
-   mamba install -c changzhanhe multispace
+   conda install -c changzhanhe multispace
 
 
 Install MultiSpace from Github(developing version)

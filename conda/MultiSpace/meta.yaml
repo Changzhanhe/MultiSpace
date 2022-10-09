@@ -44,6 +44,8 @@ requirements:
     - stridespatial
     - bsmap =2.90
 
+build:
+  preserve_egg_dir: True
 
 about:
   home: https://github.com/Changzhanhe/MultiSpace

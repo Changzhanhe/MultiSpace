@@ -39,7 +39,7 @@ def main():
         include_package_data = True,
         author = "Zhanhe Chang",
         author_email = "changzhanhe98@163.com",
-        description = "MultiSpace (Single-cell Multi Omics Analysis In Space) is a pipeline which can map single cell to spatial location and get spatially epigenetic signal. ",
+        description = "MultiSpace (Single-cell Multi-Omics Analysis In Space) is a computational framework that combines single-cell multi-omic data such as scCOOL-seq with spatial transcriptomic information.. ",
         license = "GPL-3.0",
         url = "https://github.com/Changzhanhe/MultiSpace",
         classifiers = [
