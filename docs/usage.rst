@@ -173,51 +173,51 @@ In this function, users can input ``MultiSpace Pipelineinit`` snakemake output s
                               [--st-scale-factor ST_SCALE_FACTOR] [--normalize]
                               [--ntopics NTOPICS_LIST [NTOPICS_LIST ...]]
 
-optional arguments:
-  -h, --help            show this help message and exit
+    optional arguments:
+      -h, --help            show this help message and exit
 
-Input arguments:
-  --sc_count_file SC_COUNT_FILE
-                        Location of the single-cell count matrix file. It could be tab-separated plain-text file
-                        with genes as rows and cells as columns.
-  --sc_celltype_file SC_ANNO_FILE
-                        Location of the single-cell celltype annotation file. The file should be a tab-separated
-                        plain-text file without header. The first column should be the cell name, and the second
-                        column should be the corresponding celltype labels.
-  --st_count_file ST_COUNT_FILE
-                        Location of the spatial gene count file. It could be tab-separated plain-text file with
-                        genes as rows and spots as columns.
-  --gene_use GENE_USE   Location of the gene list file used to train the model. It can also be specified as
-                        'All', but it will take a longer time. If not specified, MultiSpace will find
-                        differential marker genes for each celltype, and use them to run the model.
-  --spatial_location SPATIAL_LOCATION
-                        Location of tissue spatial coordinates
-  --model_dir MODEL_DIR
-                        If users have the pre-trained model using the same scRNA-seq dataset, please provide the
-                        path of 'model' directory.
-  --epi_binfile EPI_BINFILE
-                        Location of WCG/GCH.bin_peak.h5.Calculate DNA methylation or chromatin accessibility
-                        epigenetic signal in spatial.
-  --epi_feature EPI_FEATURE
-                        Location of WCG/GCH/bin.merge.peak
+    Input arguments:
+      --sc_count_file SC_COUNT_FILE
+                            Location of the single-cell count matrix file. It could be tab-separated plain-text file
+                            with genes as rows and cells as columns.
+      --sc_celltype_file SC_ANNO_FILE
+                            Location of the single-cell celltype annotation file. The file should be a tab-separated
+                            plain-text file without header. The first column should be the cell name, and the second
+                            column should be the corresponding celltype labels.
+      --st_count_file ST_COUNT_FILE
+                            Location of the spatial gene count file. It could be tab-separated plain-text file with
+                            genes as rows and spots as columns.
+      --gene_use GENE_USE   Location of the gene list file used to train the model. It can also be specified as
+                            'All', but it will take a longer time. If not specified, MultiSpace will find
+                            differential marker genes for each celltype, and use them to run the model.
+      --spatial_location SPATIAL_LOCATION
+                            Location of tissue spatial coordinates
+      --model_dir MODEL_DIR
+                            If users have the pre-trained model using the same scRNA-seq dataset, please provide the
+                            path of 'model' directory.
+      --epi_binfile EPI_BINFILE
+                            Location of WCG/GCH.bin_peak.h5.Calculate DNA methylation or chromatin accessibility
+                            epigenetic signal in spatial.
+      --epi_feature EPI_FEATURE
+                            Location of WCG/GCH/bin.merge.peak
 
-Output arguments:
-  --out_dir OUT_DIR     Path to the directory where the result file shall be stored. DEFAULT: current directory.
-  --out_prefix {WCG,GCH}
-                        Prefix of output files. WCG or GCH. If not specified, MultiSpace will set WCG as default.
+    Output arguments:
+      --out_dir OUT_DIR     Path to the directory where the result file shall be stored. DEFAULT: current directory.
+      --out_prefix {WCG,GCH}
+                            Prefix of output files. WCG or GCH. If not specified, MultiSpace will set WCG as default.
 
-Model arguments:
-  --sc-scale-factor SC_SCALE_FACTOR
-                        The scale factor for cell-level normalization. For example, 10000. If not specified,
-                        MultiSpace will set the 75% quantile of nCount as default.
-  --st-scale-factor ST_SCALE_FACTOR
-                        The scale factor for spot-level normalization. For example, 10000. If not specified,
-                        MultiSpace will set the 75% quantile of nCount for ST as default.
-  --normalize           Whether or not to normalize the single-cell and the spatial count matrix. If set, the two
-                        matrices will be normalized by the SD for each gene.
-  --ntopics NTOPICS_LIST [NTOPICS_LIST ...]
-                        Number of topics to train and test the model. MultiSpace will automatically select the
-                        optimal topic number. Multiple numbers should be separated by space. For example,
-                        --ntopics 6 7 8 9 10 . If not specified, MultiSpace will run several models with
-                        different topic numbers, and select the optimal one.
+    Model arguments:
+      --sc-scale-factor SC_SCALE_FACTOR
+                            The scale factor for cell-level normalization. For example, 10000. If not specified,
+                            MultiSpace will set the 75% quantile of nCount as default.
+      --st-scale-factor ST_SCALE_FACTOR
+                            The scale factor for spot-level normalization. For example, 10000. If not specified,
+                            MultiSpace will set the 75% quantile of nCount for ST as default.
+      --normalize           Whether or not to normalize the single-cell and the spatial count matrix. If set, the two
+                            matrices will be normalized by the SD for each gene.
+      --ntopics NTOPICS_LIST [NTOPICS_LIST ...]
+                            Number of topics to train and test the model. MultiSpace will automatically select the
+                            optimal topic number. Multiple numbers should be separated by space. For example,
+                            --ntopics 6 7 8 9 10 . If not specified, MultiSpace will run several models with
+                            different topic numbers, and select the optimal one.
 
