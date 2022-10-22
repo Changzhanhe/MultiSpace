@@ -35,7 +35,7 @@ def main():
         print(version)
         exit(0)
     elif args.subcommand == "Pipelineinit":
-        PipelineConfig(species = args.species, samplesheet = args.samplesheet, star_annotation = args.star_annotation, 
+        PipelineConfig(species = args.species, samplesheet = args.samplesheet, rna_annotation = args.rna_annotation, 
             fasta = args.fasta, lambda_fasta = args.lambda_fasta, fasta_fai = args.fasta_fai, star_index = args.star_index, directory = args.directory)
     elif args.subcommand == "Scorematrix":
         Generate_scorematrix(file_path = args.file_path , species = args.species, cell_barcode = args.cell_barcode, out_dir = args.out_dir, matrixtype = args.matrixtype,
