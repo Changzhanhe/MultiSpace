@@ -61,7 +61,7 @@ def pipelineinit_parser(subparsers):
 		"STAR --runThreadN N --runMode genomeGenerate --genomeDir ref --genomeFastaFiles ref.fa --sjdbGTFfile refGene.gtf")
 
 
-def PipelineConfig(species, samplesheet, star_annotation, fasta, fasta_fai, lambda_fasta, star_index, directory):
+def PipelineConfig(species, samplesheet, rna_annotation, fasta, fasta_fai, lambda_fasta, star_index, directory):
 	"""
 	Generate snakemake preprocess config.yaml file.
 	"""
