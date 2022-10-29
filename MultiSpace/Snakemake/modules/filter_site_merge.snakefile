@@ -120,8 +120,8 @@ rule getRpeatsMethy:
 		config['dnadir'] + config['site'] + "{sample}/{sample}.repeat.LINE",
 		config['dnadir'] + config['site'] + "{sample}/{sample}.repeat.LTR"
 	params:
-		repeatLINE = config['repeatLINE'],
-		repeatLTR = config['repeatLTR']
+		repeatLINE = config['repeat_line'],
+		repeatLTR = config['repeat_ltr']
 	shell:
 		""" bedtools map -a {params.repeatLINE} -b {input[0]} -c 5 -o mean| awk '{{FS="\\t";OFS="\\t"}}{{if($6 != ".")print $0}}' - |\
 		 awk 'NR>1{{arr[$4] += $6;count[$4] += 1}}END{{for (a in arr){{if (arr[a] != 0) print a "\\t " arr[a] / count[a]}}}}' - > {output[0]}     &&\
