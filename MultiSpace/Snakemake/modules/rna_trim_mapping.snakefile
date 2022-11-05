@@ -1,4 +1,4 @@
-checkpoint read_usecells:
+checkpoint read_rnausecells:
 	input:
 		config['directory']  + "04.WCG.GCH/QCtable.txt"
 	output:
@@ -10,7 +10,7 @@ checkpoint read_usecells:
 
 def get_dnausecells(wildcards):
 	usecells = []
-	with open(checkpoints.read_usecells.get(**wildcards).output[0]) as f:
+	with open(checkpoints.read_rnausecells.get(**wildcards).output[0]) as f:
 		lines = f.readlines()  
 		for line in lines:
 			usecells.append(line.strip().replace("\n",""))
