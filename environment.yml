@@ -10,7 +10,7 @@ dependencies:
 - subread ==2.0.1
 - bedtools ==2.30.0
 - trim-galore ==0.6.7
-- snakemake ==7.8.2
+- snakemake ==7.15.2
 - samtools>=1.10
 
 

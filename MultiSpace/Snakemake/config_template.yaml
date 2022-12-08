@@ -2,15 +2,15 @@
 # cores: {{ cores }}
 directory: {{ directory }}
 #dna & rna dir
-dnadir: 
-rnadir: 
+dnadir: {{ dnadir }}
+rnadir: {{ rnadir }}
 
 #where the reference files are
 fasta: {{ fasta }}
 fasta_fai: {{ fasta_fai }}
 lambda_fasta: {{ lambda_fasta }}
 star_index: {{ star_index }}
-rna_annotation: {{ star_annotation }}
+rna_annotation: {{ rna_annotation }}
 repeat_line: {{ repeat_line }}
 repeat_ltr: {{ repeat_ltr }}
 
@@ -20,6 +20,7 @@ raw: "01.Raw/"
 fastq: "02.Trim/"
 bam: "03.Bam/"
 site: "04.WCG.GCH/"
+expr: "04.Count/"
 
 # support {'mm10', 'hg38'}
 species: {{ species }}
