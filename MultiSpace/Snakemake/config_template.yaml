@@ -2,8 +2,8 @@
 # cores: {{ cores }}
 directory: {{ directory }}
 #dna & rna dir
-dnadir: {{ dnadir }}
-rnadir: {{ rnadir }}
+dnadir: 
+rnadir: 
 
 #where the reference files are
 fasta: {{ fasta }}

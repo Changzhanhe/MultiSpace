@@ -98,9 +98,9 @@ def PipelineConfig(species, samplesheet, rna_annotation, fasta, fasta_fai, lambd
 				rna_annotation = os.path.abspath(rna_annotation),
 				star_index = os.path.abspath(star_index),
 				repeat_line = os.path.abspath(repeatLINEfile),
-				repeat_ltr = os.path.abspath(repeatLTRfile),
-				dnadir = os.path.abspath(DNAdir),
-				rnadir = os.path.abspath(RNAdir)))
+				repeat_ltr = os.path.abspath(repeatLTRfile)))
+				# dnadir = os.path.abspath(DNAdir),
+				# rnadir = os.path.abspath(RNAdir)))
 
 
 	source = os.path.join(pkgpath, "Snakefile")

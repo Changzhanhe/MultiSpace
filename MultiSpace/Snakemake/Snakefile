@@ -18,8 +18,8 @@ from os.path import join
 
 def updateMeta(config):
 	"""parse metasheet for Run groupings"""
-	# config['dnadir'] = os.path.join(config['directory'], "DNA/")
-	# config['rnadir'] = os.path.join(config['directory'], "RNA/")
+	config['dnadir'] = os.path.join(config['directory'], "DNA/")
+	config['rnadir'] = os.path.join(config['directory'], "RNA/")
 	metadata = pd.read_csv(config['samplesheet'], index_col=0, header = None,comment='#', sep=',', skipinitialspace=True)
 	config['runs'] = metadata.to_csv().split()[1:]
 	# print(config['runs'])
